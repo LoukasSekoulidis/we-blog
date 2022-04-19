@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
       res.send(Object.values(result));
     }
     else {
-      res.send("Problem bei get Users");
+      res.send("Error retrieving users!");
     }
   });
 });

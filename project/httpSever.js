@@ -11,7 +11,7 @@ const app = express();
 Adding  Routes:
 **/
 app.use('/', testRoutes);
-app.use('user', userRoutes);
+app.use('/user', userRoutes);
 
 database.initDB((error, db) => {
   if (db) {
