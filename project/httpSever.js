@@ -27,6 +27,16 @@ database.initDB((error, db) => {
   }
 });
 
+/* Error Handler: */
+app.use((req, res, next) => {
+  res.status(404).send('Can not find that! The url is not supported!');
+});
+
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+  res.status(500).send("Something broke!");
+});
+
 const port = 8080;
 
 app.listen(port, () => {
