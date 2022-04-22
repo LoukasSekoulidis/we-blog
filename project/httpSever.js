@@ -15,7 +15,7 @@ Adding  Routes:
 **/
 
 app.use('/', testRoutes);
-app.use('/user', userRoutes);
+app.use('/publicUsers', userRoutes);
 app.use('/authenticate', authenticationRoutes);
 
 database.initDB((error, db) => {
@@ -40,5 +40,5 @@ app.use((err, req, res, next) => {
 const port = 8080;
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`App listening at http://localhost:${port}`);
 })

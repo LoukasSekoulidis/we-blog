@@ -14,6 +14,37 @@ function getUsers(callback) {
   })
 }
 
+function getUser(givenID, callback) {
+  userModel.findOne({ userID: givenID }, function (err, user) {
+    if (err) {
+      console.log("Error with: " + err);
+      return callback(err, null);
+    }
+    else {
+      console.log(`get User: ${givenID} OK`);
+      return callback(null, user);
+    }
+  })
+}
+
+function createUser(props, callback) {
+  const pers = new User({
+    userID: props.userID,
+    userName: props.userName,
+    password: props.password,
+    isAdministrator: props.isAdministrator
+  });
+  pers.save((err, user) => {
+    if (err) {
+      console.log('Error Saving new Person: ' + err);
+      return callback(err);
+    }
+    else {
+      return callback(null);
+    }
+  });
+}
+
 function findUserById(searchUserID, callback) {
   console.log("UserService: find User by ID: " + searchUserID);
   if (!searchUserID) {
@@ -61,7 +92,47 @@ function findUserById(searchUserID, callback) {
   }
 }
 
+function deleteUser(givenID, callback) {
+  userModel.findOneAndDelete({ userID: givenID }, function (err) {
+    if (err) {
+      console.log('Error with: ' + err);
+      return callback(err);
+    }
+    else {
+      console.log('Delete User Ok!')
+      return callback(null);
+    }
+  })
+}
+
+function updateUser(givenID, props, callback) {
+  userModel.findOne({ userID: givenID }, function (err, user) {
+    if (err) {
+      return callback(err)
+    }
+    else if (user == undefined) {
+      return callback();
+    }
+    else {
+      Object.assign(user, props);
+      user.save((err) => {
+        if (err) {
+          console.log('Error Updating Person: ' + err);
+          return callback(err);
+        }
+        else {
+          return callback(null);
+        }
+      })
+    }
+  });
+}
+
 module.exports = {
+  updateUser,
+  deleteUser,
+  createUser,
+  getUser,
   getUsers,
   findUserById
 };

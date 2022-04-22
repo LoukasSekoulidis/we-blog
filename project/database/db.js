@@ -33,5 +33,3 @@ function getDB() {
 module.exports = {
   initDB
 };
-
-//DB anlegen uns starten !

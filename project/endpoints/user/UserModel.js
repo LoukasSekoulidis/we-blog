@@ -3,7 +3,7 @@ var bcryptjs = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
   //id: Number,
-  userID: { type: String, unique: true },
+  userID: { type: String, required: true, unique: true },
   userName: String,
   //email: String,
   password: String,
@@ -19,7 +19,7 @@ UserSchema.methods.whoAmI = function () {
   console.log(output);
 }
 
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function (next) {
   var user = this;
 
   if (!user.isModified('password')) { return next() };
@@ -31,6 +31,7 @@ UserSchema.pre('save', (next) => {
   next(err)
 })
 
+/*
 UserSchema.methods.comparePassword = function (candidatePassword, next) {
   bcryptjs.compare(candidatePassword, this.password, (err, isMatch) => {
     console.log(candidatePassword);
@@ -43,6 +44,7 @@ UserSchema.methods.comparePassword = function (candidatePassword, next) {
     }
   });
 }
+*/
 
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
