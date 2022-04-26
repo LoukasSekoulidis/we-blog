@@ -1,39 +1,48 @@
 GET http://localhost:8080/publicUsers
+Content-Type: application/json
 
 ###
 POST http://localhost:8080/publicUsers 
 Content-Type: application/json
 
 {
+"userID": "admin",
 "userName": "Udo", 
 "password": "123", 
 "isAdministrator": true
 }
 
 ###
-GET http://localhost:8080/publicUsers/adm
+GET http://localhost:8080/publicUsers/admin
+Content-Type: application/json
 
 ###
 POST http://localhost:8080/publicUsers
 Content-Type: application/json
 
 {
-"userID": "manfred",
+"userID" : "manfred",
 "userName": "Manfred Mustermann", 
 "password": "asdf"
 }
 
 ###
-PUT http://localhost:8080/publicUsers/man
+PUT http://localhost:8080/publicUsers/manfred
 Content-Type: application/json 
 
 {
-"userName": "Manfred Müller",
-"password": "brot"
+"userName": "Manfred Münster",
+"password": "asdf"
 }
 
 ###
 GET http://localhost:8080/publicUsers
+Content-Type: application/json
 
 ###
-DELETE http://localhost:8080/publicUsers/manf
+DELETE http://localhost:8080/publicUsers/manfred
+Content-Type: application/json
+
+###
+DELETE http://localhost:8080/publicUsers/admin
+Content-Type: application/json

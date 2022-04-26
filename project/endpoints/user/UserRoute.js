@@ -6,7 +6,7 @@ const userService = require('./UserService')
 router.get('/', (req, res, next) => {
   userService.getUsers((err, result) => {
     if (result) {
-      res.status(200).send(Object.values(result));
+      res.status(200).json(result);
     }
     else {
       res.status(404).send("Error retrieving users!");
@@ -18,22 +18,21 @@ router.get('/:userID', (req, res, next) => {
   let urlID = req.url.split('/')[1];
   userService.getUser(urlID, (err, result) => {
     if (result) {
-      //res.status(200).json(Object.values(result));
-      res.status(200).send(result);
+      res.status(200).json(result);
     }
     else {
-      res.status(404).send(`Error retrieving user ${urlID}: ` + err);
+      res.status(404).send('Error retrieving user: ' + err);
     }
   });
 });
 
 router.post('/', (req, res, next) => {
-  userService.createUser(req.body, (err) => {
+  userService.createUser(req.body, (err, createdUser) => {
     if (err) {
       res.status(404).send('Error saving User: ' + err);
     }
     else {
-      res.status(200).send('User saved!');
+      res.status(201).json({ 'User was created succesfully': createdUser });
     }
   })
 })
@@ -45,22 +44,21 @@ router.delete('/:userID', (req, res, next) => {
       res.status(404).send('Error deleting User: ' + err);
     }
     else {
-      res.status(200).send('User deleted!');
+      res.status(200).json({ Succes: `User with userID: ${urlID} deleted!` });
     }
   })
 })
 
 router.put('/:userID', (req, res, next) => {
   let urlID = req.url.split('/')[1];
-  userService.updateUser(urlID, req.body, (err) => {
+  userService.updateUser(urlID, req.body, (err, updatedUser) => {
     if (err) {
       res.status(404).send('Error updating User: ' + err);
     }
     else {
-      res.status(200).send('User updated!');
+      res.status(200).json({ 'User was updated succesfully': updatedUser });
     }
   })
 })
-
 
 module.exports = router;

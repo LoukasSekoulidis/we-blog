@@ -1,3 +1,4 @@
+const { ConsoleTransportOptions } = require('winston/lib/winston/transports');
 const User = require('./UserModel');
 const userModel = require('./UserModel');
 
@@ -20,6 +21,9 @@ function getUser(givenID, callback) {
       console.log("Error with: " + err);
       return callback(err, null);
     }
+    else if (!user) {
+      return callback(`False userID! No User with given userID: "${givenID}" in database!`)
+    }
     else {
       console.log(`get User: ${givenID} OK`);
       return callback(null, user);
@@ -35,12 +39,17 @@ function createUser(props, callback) {
     isAdministrator: props.isAdministrator
   });
   pers.save((err, user) => {
-    if (err) {
-      console.log('Error Saving new Person: ' + err);
-      return callback(err);
+    if (err && err.code === 11000) {
+      return callback('Duplicate Key Error: Given userID already taken! Duplicate userID is not allowed.', null);
+    }
+    else if (err && err.name === 'ValidationError') {
+      return callback('Validation Error: No UserID. userID is required!', null);
+    }
+    else if (err) {
+      return callback(err, null);
     }
     else {
-      return callback(null);
+      return callback(null, user);
     }
   });
 }
@@ -93,10 +102,12 @@ function findUserById(searchUserID, callback) {
 }
 
 function deleteUser(givenID, callback) {
-  userModel.findOneAndDelete({ userID: givenID }, function (err) {
+  userModel.findOneAndDelete({ userID: givenID }, function (err, doc) {
     if (err) {
-      console.log('Error with: ' + err);
       return callback(err);
+    }
+    else if (!doc) {
+      return callback('No document in database with given userID: ' + givenID);
     }
     else {
       console.log('Delete User Ok!')
@@ -107,21 +118,22 @@ function deleteUser(givenID, callback) {
 
 function updateUser(givenID, props, callback) {
   userModel.findOne({ userID: givenID }, function (err, user) {
+    console.log(user);
     if (err) {
       return callback(err)
     }
-    else if (user == undefined) {
-      return callback();
+    else if (!user) {
+      return callback(`User with given userID: "${givenID}" does not exist!`);
     }
     else {
       Object.assign(user, props);
       user.save((err) => {
         if (err) {
           console.log('Error Updating Person: ' + err);
-          return callback(err);
+          return callback(err, null);
         }
         else {
-          return callback(null);
+          return callback(null, user);
         }
       })
     }
