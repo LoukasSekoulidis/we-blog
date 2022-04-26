@@ -118,7 +118,6 @@ function deleteUser(givenID, callback) {
 
 function updateUser(givenID, props, callback) {
   userModel.findOne({ userID: givenID }, function (err, user) {
-    console.log(user);
     if (err) {
       return callback(err)
     }
