@@ -2,35 +2,35 @@ const { ConsoleTransportOptions } = require('winston/lib/winston/transports');
 const User = require('./UserModel');
 const userModel = require('./UserModel');
 
+
+// gets every User(multiple) in database
 function getUsers(callback) {
   userModel.find(function (err, users) {
     if (err) {
-      console.log("Error with: " + err);
       return callback(err, null);
     }
     else {
-      console.log("get Users OK");
       return callback(null, users);
     }
   })
 }
 
+// gets a User (singular) in databse
 function getUser(givenID, callback) {
   userModel.findOne({ userID: givenID }, function (err, user) {
     if (err) {
-      console.log("Error with: " + err);
       return callback(err, null);
     }
     else if (!user) {
-      return callback(`False userID! No User with given userID: "${givenID}" in database!`)
+      return callback(`False userID! No User with given userID: ${givenID}, in database!`)
     }
     else {
-      console.log(`get User: ${givenID} OK`);
       return callback(null, user);
     }
   })
 }
 
+// creates a single User and saves it to database
 function createUser(props, callback) {
   const pers = new User({
     userID: props.userID,
@@ -55,7 +55,6 @@ function createUser(props, callback) {
 }
 
 function findUserById(searchUserID, callback) {
-  console.log("UserService: find User by ID: " + searchUserID);
   if (!searchUserID) {
     callback("User Service: User Id is missing");
     return;
@@ -64,7 +63,6 @@ function findUserById(searchUserID, callback) {
     var query = User.findOne({ userID: searchUserID });
     query.exec((err, user) => {
       if (err) {
-        console.log("User Service: Didn't find user for userID: " + searchUserID);
         return callback("User Service: Didn't find user for userID: " + searchUserID, null);
       }
       else {
@@ -83,7 +81,6 @@ function findUserById(searchUserID, callback) {
 
             adminUser.save((err) => {
               if (err) {
-                console.log("User Service: Couldn't create default admin account: " + err);
                 callback("Could not login to admin account", null);
               }
               else {
@@ -101,6 +98,7 @@ function findUserById(searchUserID, callback) {
   }
 }
 
+// deletes User (singular) in databse
 function deleteUser(givenID, callback) {
   userModel.findOneAndDelete({ userID: givenID }, function (err, doc) {
     if (err) {
@@ -110,25 +108,24 @@ function deleteUser(givenID, callback) {
       return callback('No document in database with given userID: ' + givenID);
     }
     else {
-      console.log('Delete User Ok!')
       return callback(null);
     }
   })
 }
 
+// updates User (singular) in databse
 function updateUser(givenID, props, callback) {
   userModel.findOne({ userID: givenID }, function (err, user) {
     if (err) {
       return callback(err)
     }
     else if (!user) {
-      return callback(`User with given userID: "${givenID}" does not exist!`);
+      return callback(`User with given userID: ${givenID}, does not exist!`);
     }
     else {
       Object.assign(user, props);
       user.save((err) => {
         if (err) {
-          console.log('Error Updating Person: ' + err);
           return callback(err, null);
         }
         else {

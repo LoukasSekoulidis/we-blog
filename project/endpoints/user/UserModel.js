@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var bcryptjs = require('bcryptjs');
 
+// descibes the User - 'Object'
 const UserSchema = new mongoose.Schema({
   //id: Number,
   userID: { type: String, required: true, unique: true },
@@ -12,6 +13,7 @@ const UserSchema = new mongoose.Schema({
 }, { timestamps: true }
 );
 
+// prints the name of a .this User
 UserSchema.methods.whoAmI = function () {
   var output = this.userID
     ? "My name is" + this.userName
@@ -19,6 +21,7 @@ UserSchema.methods.whoAmI = function () {
   console.log(output);
 }
 
+// before saving, check if password has been modified, if so, hash the new password and update password
 UserSchema.pre('save', function (next) {
   var user = this;
 

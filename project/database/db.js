@@ -5,6 +5,8 @@ let _db;
 
 const connectionString = config.get('db.connectionString');
 
+// init database connection. 
+// if there is not database with the given connectionString, create a new database and connect
 function initDB(callback) {
   if (_db) {
     if (callback) {
@@ -26,6 +28,7 @@ function initDB(callback) {
   }
 }
 
+//returns database
 function getDB() {
   return _db;
 }
