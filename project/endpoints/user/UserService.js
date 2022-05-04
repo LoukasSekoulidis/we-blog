@@ -40,7 +40,7 @@ function createUser(props, callback) {
   });
   pers.save((err, user) => {
     if (err && err.code === 11000) {
-      return callback('Duplicate Key Error: Given userID already taken! Duplicate userID is not allowed.', null);
+      return callback('Duplicate Key Error: User with given userID already exists! Duplicate userID is not allowed.', null);
     }
     else if (err && err.name === 'ValidationError') {
       return callback('Validation Error: No UserID. userID is required!', null);
@@ -54,50 +54,6 @@ function createUser(props, callback) {
   });
 }
 
-function findUserById(searchUserID, callback) {
-  if (!searchUserID) {
-    callback("User Service: User Id is missing");
-    return;
-  }
-  else {
-    var query = User.findOne({ userID: searchUserID });
-    query.exec((err, user) => {
-      if (err) {
-        return callback("User Service: Didn't find user for userID: " + searchUserID, null);
-      }
-      else {
-        if (user) {
-          console.log('Found userID' + searchUserID);
-          callback(null, user);
-        }
-        else {
-          if ("admin" === searchUserID) {
-            console.log('User Service: Do not have admin account yet. Creating default admin account!');
-            var adminUser = new User();
-            adminUser.userID = "admin";
-            adminUser.password = "123";
-            adminUser.userName = "Default Administrator Account";
-            adminUser.isAdministator = true;
-
-            adminUser.save((err) => {
-              if (err) {
-                callback("Could not login to admin account", null);
-              }
-              else {
-                callback(null, adminUser);
-              }
-            });
-          }
-          else {
-            console.log("User Service: Couldn't find user for userID: " + searchUserID);
-            callback(null, user);
-          }
-        }
-      }
-    });
-  }
-}
-
 // deletes User (singular) in databse
 function deleteUser(givenID, callback) {
   userModel.findOneAndDelete({ userID: givenID }, function (err, doc) {
@@ -105,7 +61,7 @@ function deleteUser(givenID, callback) {
       return callback(err);
     }
     else if (!doc) {
-      return callback('No document in database with given userID: ' + givenID);
+      return callback('No user in database with given userID: ' + givenID);
     }
     else {
       return callback(null);
@@ -136,11 +92,36 @@ function updateUser(givenID, props, callback) {
   });
 }
 
+// creates default Admin on launch of Server, in case there is no user with userID: 'admin' 
+function createDefaultAdmin() {
+  userModel.findOne({ userID: 'admin' }, function (err, res) {
+    if (res) {
+      console.log('Default Admin already exists!')
+    } else {
+      console.log('User Service: Do not have admin account yet. Creating default admin account!');
+      var adminUser = new User();
+      adminUser.userID = "admin";
+      adminUser.password = "123";
+      adminUser.userName = "Default Administrator Account";
+      adminUser.isAdministrator = true;
+
+      adminUser.save((err) => {
+        if (err) {
+          console.log("Could not create admin account");
+        }
+        else {
+          console.log("Created admin account");
+        }
+      });
+    }
+  })
+}
+
 module.exports = {
   updateUser,
   deleteUser,
   createUser,
   getUser,
   getUsers,
-  findUserById
+  createDefaultAdmin
 };

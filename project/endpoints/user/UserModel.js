@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bcryptjs = require('bcryptjs');
 
-// descibes the User - 'Object'
+// mongoose Schema describing a User
 const UserSchema = new mongoose.Schema({
   //id: Number,
   userID: { type: String, required: true, unique: true },
@@ -34,12 +34,8 @@ UserSchema.pre('save', function (next) {
   next(err)
 })
 
-/*
 UserSchema.methods.comparePassword = function (candidatePassword, next) {
   bcryptjs.compare(candidatePassword, this.password, (err, isMatch) => {
-    console.log(candidatePassword);
-    console.log(this.password);
-    console.log(isMatch);
     if (err)
       return next(err);
     else {
@@ -47,7 +43,6 @@ UserSchema.methods.comparePassword = function (candidatePassword, next) {
     }
   });
 }
-*/
 
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

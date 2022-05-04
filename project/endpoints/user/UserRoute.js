@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const userService = require('./UserService')
+const authenticationService = require('../authentication/AuthenticationService')
 
 
-// get-operation of every User in database
-router.get('/', (req, res, next) => {
+//get - operation of every User in database
+router.get('/', authenticationService.isAuthenticated, (req, res, next) => {
   userService.getUsers((err, result) => {
     if (result) {
       res.status(200).json(result);
@@ -17,7 +18,7 @@ router.get('/', (req, res, next) => {
 });
 
 // get-operation of a single User in database
-router.get('/:userID', (req, res, next) => {
+router.get('/:userID', authenticationService.isAuthenticated, (req, res, next) => {
   let urlID = req.url.split('/')[1];
   userService.getUser(urlID, (err, result) => {
     if (result) {
@@ -30,7 +31,7 @@ router.get('/:userID', (req, res, next) => {
 });
 
 // post-operation of a new User to database
-router.post('/', (req, res, next) => {
+router.post('/', authenticationService.isAuthenticated, (req, res, next) => {
   userService.createUser(req.body, (err, createdUser) => {
     if (err) {
       res.status(400).json({ Error: err });
@@ -42,7 +43,7 @@ router.post('/', (req, res, next) => {
 })
 
 // delete-operation of a single User in database
-router.delete('/:userID', (req, res, next) => {
+router.delete('/:userID', authenticationService.isAuthenticated, (req, res, next) => {
   let urlID = req.url.split('/')[1];
   userService.deleteUser(urlID, (err) => {
     if (err) {
@@ -55,7 +56,7 @@ router.delete('/:userID', (req, res, next) => {
 })
 
 // update-operation of a single User in database
-router.put('/:userID', (req, res, next) => {
+router.put('/:userID', authenticationService.isAuthenticated, (req, res, next) => {
   let urlID = req.url.split('/')[1];
   userService.updateUser(urlID, req.body, (err, updatedUser) => {
     if (err) {
