@@ -3,6 +3,7 @@ var jwt = require("jsonwebtoken");
 var config = require('config');
 var logger = require('../../config/winston')
 
+// Creates Token for the Basic - Authentication 
 function createSessionTokenBasic(props, callback) {
   if (!props) {
     callback('Header Missing', null, null);
@@ -52,6 +53,7 @@ function createSessionTokenBasic(props, callback) {
   })
 }
 
+// Checks if User is Authenticated by verifying, or denying a given Token
 function isAuthenticated(req, res, next) {
   if (typeof req.headers.authorization !== "undefined") {
     let token = req.headers.authorization.split(" ")[1];

@@ -22,7 +22,7 @@ router.get('/:userID', authenticationService.isAuthenticated, (req, res, next) =
   let urlID = req.url.split('/')[1];
   userService.getUser(urlID, (err, result) => {
     if (result) {
-      res.status(200).json(result);
+      res.status(200).json({ userID: result.userID, userName: result.userName, isAdministrator: result.isAdministrator });
     }
     else {
       res.status(404).json({ Error: err });

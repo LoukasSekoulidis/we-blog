@@ -31,7 +31,7 @@ Content-Type: application/json
 {
     "userID": "manfred",
     "userName": "Manfred Mustermann",
-    "password": "asdf"
+    "password": "asdf",
 }
 
 ### Abrufen des angelegten Users mit dem Admin-Token

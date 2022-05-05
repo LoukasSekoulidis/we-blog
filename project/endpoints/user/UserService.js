@@ -93,10 +93,13 @@ function updateUser(givenID, props, callback) {
 }
 
 // creates default Admin on launch of Server, in case there is no user with userID: 'admin' 
-function createDefaultAdmin() {
+function createDefaultAdmin(callback) {
   userModel.findOne({ userID: 'admin' }, function (err, res) {
+    if (err) {
+      callback('Not able to check if admin exists: ' + err, null);
+    }
     if (res) {
-      console.log('Default Admin already exists!')
+      callback('Default admin already exists in Databse!', null);
     } else {
       console.log('User Service: Do not have admin account yet. Creating default admin account!');
       var adminUser = new User();
@@ -107,10 +110,10 @@ function createDefaultAdmin() {
 
       adminUser.save((err) => {
         if (err) {
-          console.log("Could not create admin account");
+          callback('Not able to save default admin account: ' + err, null);
         }
         else {
-          console.log("Created admin account");
+          callback(null, adminUser);
         }
       });
     }
