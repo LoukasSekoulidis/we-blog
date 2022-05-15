@@ -6,7 +6,7 @@ const authenticationService = require('../authentication/AuthenticationService')
 
 
 //get - operation of every User in database
-router.get('/', authenticationService.isAuthenticated, (req, res, next) => {
+router.get('/', authenticationService.isAuthenticated, authenticationService.isAdministrator, (req, res, next) => {
   userService.getUsers((err, result) => {
     if (result) {
       res.status(200).json(result);
@@ -18,11 +18,11 @@ router.get('/', authenticationService.isAuthenticated, (req, res, next) => {
 });
 
 // get-operation of a single User in database
-router.get('/:userID', authenticationService.isAuthenticated, (req, res, next) => {
+router.get('/:userID', authenticationService.isAuthenticated, authenticationService.isAdministrator, (req, res, next) => {
   let urlID = req.url.split('/')[1];
-  userService.getUser(urlID, (err, result) => {
-    if (result) {
-      res.status(200).json({ userID: result.userID, userName: result.userName, isAdministrator: result.isAdministrator });
+  userService.getUser(urlID, (err, user) => {
+    if (user) {
+      res.status(200).json(user);
     }
     else {
       res.status(404).json({ Error: err });
@@ -31,7 +31,7 @@ router.get('/:userID', authenticationService.isAuthenticated, (req, res, next) =
 });
 
 // post-operation of a new User to database
-router.post('/', authenticationService.isAuthenticated, (req, res, next) => {
+router.post('/', authenticationService.isAuthenticated, authenticationService.isAdministrator, (req, res, next) => {
   userService.createUser(req.body, (err, createdUser) => {
     if (err) {
       res.status(400).json({ Error: err });
@@ -43,20 +43,20 @@ router.post('/', authenticationService.isAuthenticated, (req, res, next) => {
 })
 
 // delete-operation of a single User in database
-router.delete('/:userID', authenticationService.isAuthenticated, (req, res, next) => {
+router.delete('/:userID', authenticationService.isAuthenticated, authenticationService.isAdministrator, (req, res, next) => {
   let urlID = req.url.split('/')[1];
   userService.deleteUser(urlID, (err) => {
     if (err) {
       res.status(400).json({ Error: err });
     }
     else {
-      res.status(200).json({ Succes: `User with userID: ${urlID} deleted!` });
+      res.status(204).send();
     }
   })
 })
 
 // update-operation of a single User in database
-router.put('/:userID', authenticationService.isAuthenticated, (req, res, next) => {
+router.put('/:userID', authenticationService.isAuthenticated, authenticationService.isAdministrator, (req, res, next) => {
   let urlID = req.url.split('/')[1];
   userService.updateUser(urlID, req.body, (err, updatedUser) => {
     if (err) {

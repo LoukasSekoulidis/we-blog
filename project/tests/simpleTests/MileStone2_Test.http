@@ -31,7 +31,7 @@ Content-Type: application/json
 {
     "userID": "manfred",
     "userName": "Manfred Mustermann",
-    "password": "asdf",
+    "password": "asdf"
 }
 
 ### Abrufen des angelegten Users mit dem Admin-Token
@@ -81,7 +81,7 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "description": "Das ist der neue Text, warum auch nicht."
+    "description": "Das."
 }
 
 ### Auflisten der Foren des aktuellen users
@@ -99,6 +99,3 @@ Authorization: {{adminToken}}
 ### Lösche den User manfred
 DELETE http://localhost:8080/users/manfred
 Authorization: {{adminToken}}
-
-###
-DELETE http://localhost:8080/users/admin

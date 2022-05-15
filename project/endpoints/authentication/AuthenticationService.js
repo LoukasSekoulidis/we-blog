@@ -1,9 +1,10 @@
 var userService = require('../user/UserService');
+var userModel = require('../user/UserModel');
 var jwt = require("jsonwebtoken");
 var config = require('config');
 var logger = require('../../config/winston')
 
-// Creates Token for the Basic - Authentication 
+// Creates Session Token for Basic authentication
 function createSessionTokenBasic(props, callback) {
   if (!props) {
     callback('Header Missing', null, null);
@@ -14,7 +15,7 @@ function createSessionTokenBasic(props, callback) {
   const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
   const [username, password] = credentials.split(':')
 
-  userService.getUser(username, (err, user) => {
+  userModel.findOne({ userID: username }, function (err, user) {
     if (user) {
 
       user.comparePassword(password, (err, isMatch) => {
@@ -29,8 +30,6 @@ function createSessionTokenBasic(props, callback) {
             var expirationTime = config.get('session.timeout');
             var expiresAt = issuedAt + (expirationTime * 1000);
             var privateKey = config.get('session.tokenKey');
-            var privateKey = config.get('session.tokenKey');
-            // jwt => (header) payload, signature
             let token = jwt.sign(
               {
                 "userID": user.userID,
@@ -61,24 +60,45 @@ function isAuthenticated(req, res, next) {
 
     jwt.verify(token, privateKey, { algorithm: "HS256" }, (err, user) => {
       if (err) {
-        res.status(500).json({ error: "Not Authorized!" });
-        return;
-      }
-      // Fallunterscheidung: Braucht Rechte, nein: ok, ja: -> hat rechte? : nein: f , ja: ok
-      let hasRight = user.isAdministrator;
-      if (!hasRight) {
-        res.status(401).json({ error: "Not Authorized: not an admin!" });
+        res.status(401).json({ Error: "Not Authorized!" });
         return;
       }
       return next();
     });
   } else {
-    res.status(500).json({ error: "Not Authorized: No token received!" });
+    res.status(400).json({ Error: "Authorization failed: No token received!" });
+    return;
+  }
+}
+
+// Checks if User is an Administrator
+function isAdministrator(req, res, next) {
+  if (typeof req.headers.authorization !== "undefined") {
+    let token = req.headers.authorization.split(" ")[1];
+    tokenInfos = jwt.decode(token);
+    userModel.findOne({ userID: tokenInfos.userID }, function (err, user) {
+      if (user) {
+        if (user.isAdministrator === true) {
+          return next();
+        }
+        else {
+          res.status(403).json({ Error: "Not an administrator!" });
+          return;
+        }
+      }
+      else {
+        res.status(400).json({ Error: "Could not find a user with id: " + userID })
+        return;
+      }
+    })
+  } else {
+    res.status(400).json({ Error: "Authorization failed: No token received!" });
     return;
   }
 }
 
 module.exports = {
   createSessionTokenBasic,
-  isAuthenticated
+  isAuthenticated,
+  isAdministrator,
 }

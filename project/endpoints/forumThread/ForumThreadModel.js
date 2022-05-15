@@ -1,14 +1,12 @@
 var mongoose = require('mongoose');
-var bcryptjs = require('bcryptjs');
 const { MongoGridFSChunkError } = require('mongodb');
-const User = require('../user/UserModel');
 
 const ForumThreadSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
   description: String,
-  userID: { type: String, required: true }
+  ownerID: { type: String, required: true }
 }, { timestamps: true }
 );
 
-const ForumThread = mongoose.model("Forumthread", ForumThreadSchema);
+const ForumThread = mongoose.model("ForumThread", ForumThreadSchema);
 module.exports = ForumThread;

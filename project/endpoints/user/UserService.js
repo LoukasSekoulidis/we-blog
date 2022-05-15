@@ -2,7 +2,6 @@ const { ConsoleTransportOptions } = require('winston/lib/winston/transports');
 const User = require('./UserModel');
 const userModel = require('./UserModel');
 
-
 // gets every User(multiple) in database
 function getUsers(callback) {
   userModel.find(function (err, users) {
@@ -10,7 +9,10 @@ function getUsers(callback) {
       return callback(err, null);
     }
     else {
-      return callback(null, users);
+      var filteredUsers = users.map((user) => {
+        return { userID: user.userID, userName: user.userName, isAdministrator: user.isAdministrator };
+      })
+      return callback(null, filteredUsers);
     }
   })
 }
@@ -25,7 +27,8 @@ function getUser(givenID, callback) {
       return callback(`False userID! No User with given userID: ${givenID}, in database!`)
     }
     else {
-      return callback(null, user);
+      var filteredUser = { userID: user.userID, userName: user.userName, isAdministrator: user.isAdministrator };
+      return callback(null, filteredUser);
     }
   })
 }
@@ -49,7 +52,8 @@ function createUser(props, callback) {
       return callback(err, null);
     }
     else {
-      return callback(null, user);
+      var filteredUser = { userID: user.userID, userName: user.userName, isAdministrator: user.isAdministrator };
+      return callback(null, filteredUser);
     }
   });
 }
@@ -85,7 +89,8 @@ function updateUser(givenID, props, callback) {
           return callback(err, null);
         }
         else {
-          return callback(null, user);
+          var filteredUser = { userID: user.userID, userName: user.userName, isAdministrator: user.isAdministrator };
+          return callback(null, filteredUser);
         }
       })
     }
