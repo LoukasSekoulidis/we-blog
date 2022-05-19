@@ -62,7 +62,7 @@ GET https://localhost/forumThreads
 ###
 # @name createForumRequest
 POST https://localhost/forumThreads
-Authorization: {{adminToken}}
+#Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
@@ -77,7 +77,7 @@ Content-Type: application/json
 GET https://localhost/forumThreads
 
 ### Foren für admin auflisten (es sollte 1 sein)
-GET https://localhost/forumThreads
+GET https://localhost/forumThreads/myForumThreads
 Authorization: {{adminToken}}
 
 // Login mit Basic Authentication als manfred mit korrekten Credentials admin:123
@@ -89,7 +89,7 @@ Authorization: Basic manfred:asdf
 @manfredToken = {{loginManfredCorrect.response.headers.Authorization}}
 
 ### Auflisten aller ForumThreads von manfred
-GET https://localhost/forumThreads
+GET https://localhost/forumThreads/myForumThreads
 Authorization: {{manfredToken}}
 
 ### Forum mit einer bestimmten ID abrufen
@@ -105,14 +105,14 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "forumDescription": "Das ist der neue Text"
+    "description": "Das ist der neue Text"
 }
 
 ### Auflisten der Foren des Administrators
-GET http://localhost:8080/forumThreads?ownerID=admin
+GET https://localhost/forumThreads?ownerID=admin
 
 ### Foren für admin auflisten (es sollte 1 sein)
-GET http://localhost:8080/forumThreads?ownerID=manfred
+GET https://localhost/forumThreads?ownerID=manfred
 
 ###
 # @name createForumRequest
@@ -127,6 +127,9 @@ Content-Type: application/json
 
 ### Auflisten der Foren für den User manfred, diese Funktion sollte nur der Admin nutzen
 GET https://localhost/forumThreads?ownerID=manfred
+
+
+### ------- AB HIER -------
 
 ### Forumnachrichten für einen bestimmten Forum-Thread abrufen
 GET https://localhost/forumThreads/{{forumThreadID}}/forumMessages
@@ -146,8 +149,8 @@ Content-Type: application/json
 
 {
     "forumThreadID": "{{forumThreadID}}",
-    "messageTitle": "Meine erste Forumnachricht",
-    "messageText": "Das wollte ich nur kurz in das Forum schreiben."
+    "title": "Mein TEST",
+    "text": "Das wollte ich nur kurz in das Forum schreiben."
 }
 ###
 @forumMessageID = {{createForumMessageRequest.response.body._id}}
@@ -172,5 +175,9 @@ GET https://localhost/forumThreads/{{forumThreadID}}/forumMessages
 
 ### Löschen einer Forumnachrichten
 DELETE  https://localhost/forumMessages/{{forumMessageID}}
+Authorization: {{adminToken}}
+
+###
+DELETE https://localhost/users/manfred
 Authorization: {{adminToken}}
 

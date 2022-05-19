@@ -9,6 +9,7 @@ const userRoutes = require('./endpoints/user/UserRoute');
 const publicUserRoutes = require('./endpoints/publicUser/UserRoute');
 const authenticationRoutes = require('./endpoints/authentication/AuthenticationRoute');
 const forumThreadRoutes = require('./endpoints/forumThread/ForumThreadRoute');
+const forumMessageRoute = require('./endpoints/forumMessage/ForumMessageRoute');
 
 const userService = require('./endpoints/user/UserService');
 
@@ -24,6 +25,7 @@ app.use('/users', userRoutes);
 app.use('/publicUsers', publicUserRoutes);
 app.use('/authenticate', authenticationRoutes);
 app.use('/forumThreads', forumThreadRoutes);
+app.use('/forumMessages', forumMessageRoute);
 
 database.initDB((error, db) => {
   if (db) {

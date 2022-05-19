@@ -4,6 +4,7 @@ const router = express.Router();
 const ForumThread = require('./ForumThreadModel');
 const forumThreadService = require('./ForumThreadService');
 const authenticationService = require('../authentication/AuthenticationService');
+const forumMessageService = require('../forumMessage/ForumMessageService');
 
 
 //gets all ForumThreads in Database
@@ -52,7 +53,6 @@ router.get('/:forumThreadID', (req, res, next) => {
   });
 });
 
-
 // Posts a new ForumThread to Database
 router.post('/', authenticationService.isAuthenticated, (req, res, next) => {
   forumThreadService.createForumThread(req, (err, result) => {
@@ -89,5 +89,17 @@ router.delete('/:forumThreadID', authenticationService.isAuthenticated, (req, re
     }
   });
 });
+
+router.get('/:forumThreadID/forumMessages', (req, res) => {
+  let urlID = req.url.split('/')[1];
+  forumMessageService.getForumMessagesOfThread(urlID, (err, messages) => {
+    if (err) {
+      res.status(404).json({ Error: err });
+    }
+    else {
+      res.status(200).send(messages);
+    }
+  })
+})
 
 module.exports = router;

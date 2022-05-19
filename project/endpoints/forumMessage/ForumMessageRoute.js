@@ -29,8 +29,26 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', (res, res) => {
+router.post('/', (req, res) => {
+  ForumMessageService.createForumMessages(req.body, req.headers, (err, message) => {
+    if (message) {
+      res.status(201).json(message);
+    }
+    else {
+      res.status(400).json({ Error: err });
+    }
+  })
+})
 
+router.delete('/:forumMessageID', (req, res) => {
+  ForumMessageService.deleteForumMessage(req.url.split('/')[1], (err) => {
+    if (err) {
+      res.status(404).json({ Error: err });
+    }
+    else {
+      res.status(204).send();
+    }
+  })
 })
 
 module.exports = router;

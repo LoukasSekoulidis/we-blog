@@ -55,7 +55,6 @@ function createForumThread(props, callback) {
   else {
     return callback('No token received, need ownerID', null);
   }
-
   const forumThread = new ForumThread({
     name: body.name,
     description: body.description,

@@ -66,7 +66,7 @@ function isAuthenticated(req, res, next) {
       return next();
     });
   } else {
-    res.status(400).json({ Error: "Authorization failed: No token received!" });
+    res.status(401).json({ Error: "Authorization failed: No token received!" });
     return;
   }
 }
@@ -92,7 +92,7 @@ function isAdministrator(req, res, next) {
       }
     })
   } else {
-    res.status(400).json({ Error: "Authorization failed: No token received!" });
+    res.status(401).json({ Error: "Authorization failed: No token received!" });
     return;
   }
 }
