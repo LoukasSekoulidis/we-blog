@@ -5,6 +5,7 @@ const ForumThread = require('./ForumThreadModel');
 const forumThreadService = require('./ForumThreadService');
 const authenticationService = require('../authentication/AuthenticationService');
 const forumMessageService = require('../forumMessage/ForumMessageService');
+const confirmationService = require('../confirmation/ConfirmationService')
 
 
 //gets all ForumThreads in Database
@@ -54,7 +55,7 @@ router.get('/:forumThreadID', (req, res, next) => {
 });
 
 // Posts a new ForumThread to Database
-router.post('/', authenticationService.isAuthenticated, (req, res, next) => {
+router.post('/', authenticationService.isAuthenticated, confirmationService.isVerified,(req, res, next) => {
   forumThreadService.createForumThread(req, (err, result) => {
     if (err) {
       res.status(400).json({ Error: err });
@@ -66,7 +67,7 @@ router.post('/', authenticationService.isAuthenticated, (req, res, next) => {
 });
 
 // updated a ForumThread
-router.put('/:forumThreadID', authenticationService.isAuthenticated, (req, res, next) => {
+router.put('/:forumThreadID', authenticationService.isAuthenticated, confirmationService.isVerified, (req, res, next) => {
   let urlID = req.url.split('/')[1];
   forumThreadService.updateForumThread(urlID, req.body, (err, updatedForumThread) => {
     if (err) {
@@ -78,7 +79,7 @@ router.put('/:forumThreadID', authenticationService.isAuthenticated, (req, res, 
   })
 });
 
-router.delete('/:forumThreadID', authenticationService.isAuthenticated, (req, res, next) => {
+router.delete('/:forumThreadID', authenticationService.isAuthenticated, confirmationService.isVerified, (req, res, next) => {
   let urlID = req.url.split('/')[1];
   forumThreadService.deleteForumThread(urlID, (err) => {
     if (err) {

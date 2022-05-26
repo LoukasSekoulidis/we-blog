@@ -57,6 +57,25 @@ function createForumMessages(body, header, callback) {
   })
 };
 
+function updateForumMessages(forumMessageID, props, callback) {
+  ForumMessageModel.findById(forumMessageID, function(err, result) { 
+    if ( err ){
+      return callback('Error finding ForumMessage with ID: ' + forumMessageID);
+    } else if (!result){
+      return callback('Could not finding ForumMessage with ID: ' + forumMessageID);
+    } else {
+        Object.assign(forumMessage, props);
+        forumMessage.save((err) => {
+          if (err){
+            return callback(err, null);
+          } else { 
+            return callback(null, forumMessage)
+          }
+        });
+      }
+  })
+}
+
 function deleteForumMessage(forumMessageID, callback) {
   ForumMessageModel.findByIdAndDelete(forumMessageID, function (err, result) {
     if (err) {
@@ -75,5 +94,6 @@ module.exports = {
   getForumMessages,
   createForumMessages,
   getForumMessagesOfThread,
+  updateForumMessages,
   deleteForumMessage
 };

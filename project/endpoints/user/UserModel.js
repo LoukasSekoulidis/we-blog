@@ -6,10 +6,17 @@ const UserSchema = new mongoose.Schema({
   //id: Number,
   userID: { type: String, required: true, unique: true },
   userName: String,
-  //email: String,
+  userMail: String,
   password: String,
   //image: String,
-  isAdministrator: { type: Boolean, default: false }
+  isAdministrator: { type: Boolean, default: false },
+  confirmed: {
+    type: Boolean,
+    default: false,
+  },
+  confirmationCode: {
+
+  }
 }, { timestamps: true }
 );
 

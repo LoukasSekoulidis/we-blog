@@ -9,5 +9,9 @@
       "useUnifiedTopology": true
     },
     "connectionString": "mongodb://localhost/WEB2Sekoulidis"
+  },
+  "mail": {
+    "user" : "testnodemailconfirmation@gmail.com",
+    "pass": "testNodeJSConfirmation" 
   }
 }

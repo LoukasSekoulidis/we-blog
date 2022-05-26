@@ -2,6 +2,11 @@ const { ConsoleTransportOptions } = require('winston/lib/winston/transports');
 const User = require('./UserModel');
 const userModel = require('./UserModel');
 
+const nodeMailer = require('../confirmation/ConfirmationMailer');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+// isVerifies einbauen
+
 // gets every User(multiple) in database
 function getUsers(callback) {
   userModel.find(function (err, users) {
@@ -35,11 +40,15 @@ function getUser(givenID, callback) {
 
 // creates a single User and saves it to database
 function createUser(props, callback) {
+  const token = jwt.sign({userMail: props.userMail}, config.get('session.tokenKey'));
+
   const pers = new User({
     userID: props.userID,
     userName: props.userName,
+    userMail: props.userMail,
     password: props.password,
-    isAdministrator: props.isAdministrator
+    isAdministrator: props.isAdministrator,
+    confirmationCode: token
   });
   pers.save((err, user) => {
     if (err && err.code === 11000) {
@@ -52,8 +61,15 @@ function createUser(props, callback) {
       return callback(err, null);
     }
     else {
-      var filteredUser = { userID: user.userID, userName: user.userName, isAdministrator: user.isAdministrator };
+      var filteredUser = { userID: user.userID, userName: user.userName, userMail: user.userMail, isAdministrator: user.isAdministrator };
+      nodeMailer.sendConfirmationMail(
+        user.userName, 
+        user.userMail, 
+        user.confirmationCode
+      );
       return callback(null, filteredUser);
+
+
     }
   });
 }
@@ -112,6 +128,7 @@ function createDefaultAdmin(callback) {
       adminUser.password = "123";
       adminUser.userName = "Default Administrator Account";
       adminUser.isAdministrator = true;
+      adminUser.confirmed = true;
 
       adminUser.save((err) => {
         if (err) {

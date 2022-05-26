@@ -34,18 +34,19 @@ Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "userID": "manfred",
-    "userName": "Manfred Mustermann",
-    "password": "asdf"
+    "userID": "lukas",
+    "userName": "Lukas Sekoulidis",
+    "userMail": "sekoulidis.lukas@icloud.com",
+    "password": "asdf" 
 }
 
 ###
-PUT https://localhost/users/manfred
+PUT https://localhost/users/lukas
 Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
-    "userName": "Manfred Müller"
+    "userName": "Loukas Sekoulidis"
 }
 
 ### Auflisten aller Nutzer mit Token(Admin)
@@ -62,11 +63,11 @@ GET https://localhost/forumThreads
 ###
 # @name createForumRequest
 POST https://localhost/forumThreads
-#Authorization: {{adminToken}}
+Authorization: {{manfredToken}}
 Content-Type: application/json
 
 {
-    "name": "Mein erstes Forum",
+    "name": "Erstes Forum von Lukas",
     "description": "Das ist ein erstes Forum, das ich im Rahmen der Tests angelegt habe"
 }
 
@@ -84,13 +85,17 @@ Authorization: {{adminToken}}
 ###
 # @name loginManfredCorrect
 GET https://localhost/authenticate
-Authorization: Basic manfred:asdf
+Authorization: Basic lukas:asdf
 ###
 @manfredToken = {{loginManfredCorrect.response.headers.Authorization}}
 
 ### Auflisten aller ForumThreads von manfred
 GET https://localhost/forumThreads/myForumThreads
 Authorization: {{manfredToken}}
+
+
+###
+GET https://localhost/confirmation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTWFpbCI6InNla291bGlkaXMubHVrYXNAaWNsb3VkLmNvbSIsImlhdCI6MTY1MzU2MzUyNn0.A2XxXNMZNinT9kJpgmzDFI92zgMDk957h7xk_KqGjOQ
 
 ### Forum mit einer bestimmten ID abrufen
 GET https://localhost/forumThreads/{{forumThreadID}}
@@ -112,12 +117,12 @@ Content-Type: application/json
 GET https://localhost/forumThreads?ownerID=admin
 
 ### Foren für admin auflisten (es sollte 1 sein)
-GET https://localhost/forumThreads?ownerID=manfred
+GET https://localhost/forumThreads?ownerID=lukas
 
 ###
 # @name createForumRequest
 POST https://localhost/forumThreads
-Authorization: {{manfredToken}}
+Authorization: {{adminToken}}
 Content-Type: application/json
 
 {
@@ -178,6 +183,34 @@ DELETE  https://localhost/forumMessages/{{forumMessageID}}
 Authorization: {{adminToken}}
 
 ###
-DELETE https://localhost/users/manfred
+DELETE https://localhost/users/lukas
 Authorization: {{adminToken}}
 
+
+
+
+
+
+
+
+
+#TESTING IMPLEMENTATION NODEMAILING
+###
+POST https://localhost/users
+Authorization: {{adminToken}}
+Content-Type: application/json
+
+{
+    "userID": "lukas",
+    "userName": "Manfred Mustermann",
+    "userMail": "test.lukas@icloud.com",
+    "password": "asdf"
+}
+
+###
+GET https://localhost/users
+Authorization: {{manfredToken}}
+
+###
+GET https://localhost/users
+Authorization: {{adminToken}}

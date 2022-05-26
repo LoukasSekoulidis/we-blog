@@ -10,6 +10,7 @@ const publicUserRoutes = require('./endpoints/publicUser/UserRoute');
 const authenticationRoutes = require('./endpoints/authentication/AuthenticationRoute');
 const forumThreadRoutes = require('./endpoints/forumThread/ForumThreadRoute');
 const forumMessageRoute = require('./endpoints/forumMessage/ForumMessageRoute');
+const confirmationRoute = require('./endpoints/confirmation/ConfirmationRoute');
 
 const userService = require('./endpoints/user/UserService');
 
@@ -26,6 +27,7 @@ app.use('/publicUsers', publicUserRoutes);
 app.use('/authenticate', authenticationRoutes);
 app.use('/forumThreads', forumThreadRoutes);
 app.use('/forumMessages', forumMessageRoute);
+app.use('/confirmation', confirmationRoute);
 
 database.initDB((error, db) => {
   if (db) {
@@ -64,5 +66,5 @@ https
     },
     app)
   .listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
+    console.log(`App listening at https://localhost:${port}`);
   })

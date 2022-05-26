@@ -10,14 +10,15 @@ function createSessionTokenBasic(props, callback) {
     callback('Header Missing', null, null);
     return;
   }
-
   const base64Credentials = props.authorization.split(' ')[1];
   const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
   const [username, password] = credentials.split(':')
 
   userModel.findOne({ userID: username }, function (err, user) {
+  if (user.confirmed == false){
+    callback('User has not confirmed e-Mail', null, null)
+  }
     if (user) {
-
       user.comparePassword(password, (err, isMatch) => {
 
         if (err) {

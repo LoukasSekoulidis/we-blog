@@ -4,6 +4,7 @@ const router = express.Router();
 const authenticationService = require('../authentication/AuthenticationService');
 const ForumMessageModel = require('./ForumMessageModel');
 const ForumMessageService = require('./ForumMessageService');
+const confirmationService = require('../confirmation/ConfirmationService')
 
 router.get('/', (req, res) => {
   ForumMessageService.getForumMessages((err, messages) => {
@@ -28,6 +29,10 @@ router.get('/', (req, res) => {
     }
   });
 });
+
+router.put('/:forumMessageID', (req, res) => {
+
+})
 
 router.post('/', (req, res) => {
   ForumMessageService.createForumMessages(req.body, req.headers, (err, message) => {
