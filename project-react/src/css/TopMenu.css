@@ -1,0 +1,86 @@
+:root{
+  --white: #ffffff;
+  --first-Color: #004A44;
+  --second-Color: #007d7381;
+  --second-Color-Old: #518f8a;
+  --third-Color: #008A7E;
+  --accent-Color: #963100;
+}
+
+body{
+  background-color: var(--white);
+  color: var(--first-Color);
+}
+.navbar-light{
+  background-color: var(--white);
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: var(--first-Color);
+}
+.navbar-light .navbar-brand{
+  color: var(--first-Color);
+}
+.navbar-light .navbar-brand:hover{
+  color: var(--first-Color);
+}
+.navbar-light .navbar-nav {
+  transition: 1s;
+}
+.navbar-light .navbar-nav .nav-link{
+  color: var(--second-Color);
+}
+.navbar-light .navbar-nav .nav-link:hover{
+  color: var(--first-Color);
+}
+.navbar-light .navbar-nav .nav-link.active{
+  color: var(--first-Color);
+}
+
+.btn{
+  margin: .1em;
+}
+
+.btn-primary{
+  background-color: var(--first-Color);
+  color: var(--white);
+  border-color:  var(--first-Color);
+}
+.btn-outline-primary{
+  background-color: var(--white);
+  color: #004A44;
+  border-color: #004A44;
+}
+
+.btn-primary:hover{
+  background-color: var(--second-Color-Old);
+  color: var(--white);
+  border-color: var(--white);
+}
+
+.btn-outline-primary:hover{
+  background-color: var(--second-Color-Old);
+  color: var(--white);
+  border-color: var(--white);
+}
+
+.loginA, .pwForgottenA{
+  color: var(--third-Color);
+  text-decoration: none;
+  transition: ease-in .1s;
+}
+
+.loginA:hover, .pwForgottenA:hover{
+  color: var(--accent-Color)
+}
+
+#confirmDelete {
+    border: 1px black solid;
+}
+
+#confirmDelete>h5 {
+    color: red;
+}
+
+#DeleteUserConfirm{
+    background-color: red;
+}

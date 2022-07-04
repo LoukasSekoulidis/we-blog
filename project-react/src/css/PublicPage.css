@@ -1,0 +1,17 @@
+h1{
+}
+
+h4{
+  margin-bottom: 2em;
+}
+
+.card{
+  transition: ease-out 0.15s;
+  margin-bottom: 1em;
+}
+
+.card:hover{
+  /* transform: translate(-3px, -5px); */
+  border: 1px solid rgba(0,0,0,.55);
+  /* box-shadow: 3px 5px rgba(0,0,0,.9); */
+}
