@@ -15,7 +15,7 @@ const PrivatePage = () => {
     return (
         <div className="page-content" id="PrivatePage" style={{ background: 'white' }}>
             <TopMenu />
-            <h1> Private Page </h1>
+            <h1 > Private Page </h1>
         </div>
     )
 }

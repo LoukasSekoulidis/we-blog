@@ -84,3 +84,40 @@ body{
 #DeleteUserConfirm{
     background-color: red;
 }
+
+#OpenUserManagementButton{
+    color: var(--first-Color);
+    background-color: transparent;
+    border: 1px solid white
+}
+
+#OpenUserManagementButton:hover{
+    border: 1px solid var(--first-Color)
+}
+
+#forumManagement{
+    color: var(--first-Color);
+    background-color: transparent;
+    border: 1px solid white
+
+}
+
+#forumManagement:hover{
+    border: 1px solid var(--first-Color)
+}
+
+
+#OpenPrivatePageButton{
+    transition: ease-out(10s);
+    color: var(--first-Color);
+    border: 1px solid white;
+}
+
+#OpenPrivatePageButton:hover{
+    color: var(--accent-Color);
+
+}
+
+h1{
+    margin: 2em;
+}

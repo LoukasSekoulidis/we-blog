@@ -38,7 +38,7 @@ const UserSessionWidget = () => {
             {accessToken ? logout : login}
             <Modal show={showLoginDialog} onHide={() => dispatch(hideLoginDialog())} centered>
                 <Modal.Header>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title> Login </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -48,7 +48,7 @@ const UserSessionWidget = () => {
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control id="LoginPasswordInput" type="password" placeholder="Password" name='password' onChange={handleChange} />
+                            <Form.Control id="LoginPasswordInput" type="password" placeholder="Enter password" name='password' onChange={handleChange} />
                         </Form.Group>
                         <Button id="LoginButton" variant="primary" type="submit" onClick={handleSubmit}>
                             Submit
@@ -57,7 +57,6 @@ const UserSessionWidget = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <p style={{ display: 'inline' }} className="pwForgottenA"> Password vergessen ?</p>
                 </Modal.Footer>
             </Modal>
         </>

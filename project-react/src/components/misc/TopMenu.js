@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+
+import { useDispatch } from 'react-redux';
 
 import jwt from 'jwt-decode'
 
@@ -9,16 +11,26 @@ import '../../css/TopMenu.css'
 import UserSessionWidget from '../LandingPage/UserSessionWidget'
 import UserManagementWidget from '../UserManagement/UserManagementWidget'
 import OpenUserManagementButton from '../UserManagement/OpenUserManagementButton'
+import OpenForumComponentButton from '../ForumManagement/OpenForumComponentButton'
 
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from '../../redux/AuthenticationSlice'
 
+import { hideForumManagement } from '../../redux/ForumManagementSlice'
+
+
 
 const TopMenu = () => {
+    const dispatch = useDispatch();
 
     const accessToken = useSelector(selectAccessToken)
     const UserButton = <OpenUserManagementButton />
     const UserWidget = <UserManagementWidget />
+    const ForumComponent = <OpenForumComponentButton />
+
+    const HomeLink = <Link to='/' id='OpenPrivatePageButton' onClick={(e) => dispatch(hideForumManagement())}>
+        <Navbar.Brand id='OpenPrivatePageButton'>Touchdesigner-Forum</Navbar.Brand>
+    </Link>
 
     let user = {
         isAdministrator: false
@@ -26,27 +38,19 @@ const TopMenu = () => {
 
     if (accessToken !== null) {
         user = jwt(accessToken)
-        console.log('User from accesToken: ', user)
     }
 
     return (
         <Navbar expand="lg">
             <Container>
-                {accessToken ? <Link to='/' id='OpenPrivatePageButton'> Touchdesigner-Forum </Link> : <Navbar.Brand >Touchdesigner-Forum</Navbar.Brand>}
+                {accessToken ? HomeLink : <Navbar.Brand >Touchdesigner-Forum</Navbar.Brand>}
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Threads</Nav.Link>
-                        <Nav.Link href="#link">About Us</Nav.Link>
-                        <NavDropdown title="About Touchdesigner" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Touchdesigner-Page Link</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Touchdesigner-YT  Link</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown>
+                        {accessToken ? ForumComponent : null}
+                        {UserWidget}
+                        {user.isAdministrator ? UserButton : null}
                     </Nav>
-                    {UserWidget}
-                    {user.isAdministrator ? UserButton : null}
                     <UserSessionWidget />
                 </Navbar.Collapse>
             </Container>

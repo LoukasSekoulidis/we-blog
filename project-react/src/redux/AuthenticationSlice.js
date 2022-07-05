@@ -57,7 +57,6 @@ export const AuthenticationSlice = createSlice({
         },
         [getUserSession.fulfilled]: (state, { payload }) => {
             //   console.log('fulfilled')
-            console.log(payload)
             state.pending = false
             state.showLoginDialog = false
             state.error = null
