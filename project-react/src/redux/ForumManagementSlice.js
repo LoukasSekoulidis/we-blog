@@ -195,10 +195,7 @@ export const ForumManagementSlice = createSlice({
             .addCase(createForumThreadAsync.rejected, (state, { payload }) => {
                 // console.log('REJECTED Xtra Reducer Create Forum')
                 state.pending = false
-                console.log('PRE: ', payload.Error)
                 state.error = payload.Error
-                console.log('POST: ', payload.Error)
-                console.log(state)
             })
             // deleteForumThreadAsync
             .addCase(deleteForumThreadAsync.pending, (state) => {
@@ -235,14 +232,13 @@ export const ForumManagementSlice = createSlice({
                 state.pending = true
             })
             .addCase(getMessagesOfForumThreadAsync.fulfilled, (state, { payload }) => {
-                console.log('FULFILLED Xtra Reducer Messages')
+                // console.log('FULFILLED Xtra Reducer Messages')
                 state.pending = false
                 state.error = null;
-                console.log(payload)
                 state.forumMessages = payload
             })
             .addCase(getMessagesOfForumThreadAsync.rejected, (state, { payload }) => {
-                console.log('REJECTED Xtra Reducer Messages')
+                // console.log('REJECTED Xtra Reducer Messages')
                 state.pending = false
                 state.error = payload.Error
             })
@@ -252,13 +248,13 @@ export const ForumManagementSlice = createSlice({
                 state.createMessagePending = true
             })
             .addCase(createForumMessageAsync.fulfilled, (state) => {
-                console.log('FULFILLED Xtra Reducer Messages')
+                // console.log('FULFILLED Xtra Reducer Messages')
                 state.pending = false
                 state.error = null;
                 state.createMessagePending = false
             })
             .addCase(createForumMessageAsync.rejected, (state, { payload }) => {
-                console.log('REJECTED Xtra Reducer Messages')
+                // console.log('REJECTED Xtra Reducer Messages')
                 state.pending = false
                 state.error = payload.Error
                 state.createMessagePending = false
@@ -269,13 +265,13 @@ export const ForumManagementSlice = createSlice({
                 state.createMessagePending = true
             })
             .addCase(deleteForumMessageAsync.fulfilled, (state) => {
-                console.log('FULFILLED Xtra Reducer Messages')
+                // console.log('FULFILLED Xtra Reducer Messages')
                 state.pending = false
                 state.error = null;
                 state.createMessagePending = false
             })
             .addCase(deleteForumMessageAsync.rejected, (state, { payload }) => {
-                console.log('REJECTED Xtra Reducer Messages')
+                // console.log('REJECTED Xtra Reducer Messages')
                 state.pending = false
                 state.error = payload.Error
                 state.createMessagePending = false
@@ -286,13 +282,13 @@ export const ForumManagementSlice = createSlice({
                 state.createMessagePending = true
             })
             .addCase(updateForumMessageAsync.fulfilled, (state) => {
-                console.log('FULFILLED Xtra Reducer Messages')
+                // console.log('FULFILLED Xtra Reducer Messages')
                 state.pending = false
                 state.error = null;
                 state.createMessagePending = false
             })
             .addCase(updateForumMessageAsync.rejected, (state, { payload }) => {
-                console.log('REJECTED Xtra Reducer Messages')
+                // console.log('REJECTED Xtra Reducer Messages')
                 state.pending = false
                 state.error = payload.Error
                 state.createMessagePending = false
@@ -308,7 +304,7 @@ export const selectForumMessages = (state) => state.forumManagement.forumMessage
 export const selectCurrentForum = (state) => state.forumManagement.currentForum
 
 
-export const selectError = (state) => state.forumManagement.error
+export const selectForumError = (state) => state.forumManagement.error
 
 export const selectPending = (state) => state.forumManagement.pending
 export const selectDeletePending = (state) => state.forumManagement.deletePending

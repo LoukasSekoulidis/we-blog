@@ -70,6 +70,7 @@ const UserManagementWidget = () => {
                 <Modal show={showUserManagementDialog} onHide={() => hideModal()} centered>
                     <Modal.Header>
                         <Modal.Title>User Management</Modal.Title>
+                        {showNewUserDialog ? null : AddUser}
                     </Modal.Header>
                     <Modal.Body>
                         {showNewUserDialog ? NewUser : null}
@@ -89,8 +90,6 @@ const UserManagementWidget = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         {createUserError && <p style={{ color: 'red', display: 'inline-block' }}> {createUserError} </p>}
-                        {showNewUserDialog ? null : AddUser}
-
                     </Modal.Footer>
                 </Modal>
             </>

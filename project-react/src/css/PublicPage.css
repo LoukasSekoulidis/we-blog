@@ -1,17 +1,53 @@
-h1{
-}
-
-h4{
-  margin-bottom: 2em;
-}
-
 .card{
   transition: ease-out 0.15s;
   margin-bottom: 1em;
 }
 
-.card:hover{
-  /* transform: translate(-3px, -5px); */
-  border: 1px solid rgba(0,0,0,.55);
-  /* box-shadow: 3px 5px rgba(0,0,0,.9); */
+#OpenCreateForumThreadDialogButton::after{
+    transition: ease-in-out .15s;
+    position: relative;
+    content: 'New Thread';
+    margin-left: .1em;
+    opacity: 0;
+    font-size: 1.2em;
+}
+
+#OpenCreateForumThreadDialogButton:hover::after{
+    position: absolute;
+    opacity: 100%;
+    margin-left: .7em;
+}
+
+#OpenCreateUserDialogButton::before{
+    transition: ease-in-out .15s;
+    position: relative;
+    content: 'New User';
+    opacity: 0;
+    font-size: 1.2em;
+    margin-right: 0;
+}
+
+#OpenCreateUserDialogButton:hover::before{
+    position: relative;
+    opacity: 100%;
+    margin-right: .7em;
+}
+
+#OpenCreateForumMessageButton::after{
+    transition: ease-in-out .15s;
+    position: relative;
+    content: 'New Message';
+    margin-left: .1em;
+    opacity: 0;
+    font-size: 1.2em;
+}
+
+#OpenCreateForumMessageButton:hover::after{
+    position: absolute;
+    opacity: 100%;
+    margin-left: .7em;
+}
+
+#forumInfo{
+    border-bottom: 1px solid #004A44;
 }

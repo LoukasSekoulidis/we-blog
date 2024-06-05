@@ -7,6 +7,7 @@ import { getAllForumThreadsAsync, selectShowForumManagement, selectForums } from
 import ForumComponent from './ForumComponent'
 import TopMenu from '../misc/TopMenu'
 import CreateForumComponent from './CreateForumComponent'
+import { Container, Row } from 'react-bootstrap';
 
 
 function ForumOverview() {
@@ -20,17 +21,24 @@ function ForumOverview() {
         dispatch(getAllForumThreadsAsync())
     }, [])
 
+    let gridRow = 0;
+    let gridCol = 0;
+
+
     if (forumsArray != null) {
         return (
-            <div id="ForumThreadList">
+            <div>
                 <TopMenu />
-                <CreateForumComponent accessToken={accessToken} />
-                <h2> Forum Threads </h2>
-                <ul>
-                    {forumsArray.map((forum) => (
-                        < ForumComponent to='/forumThreadDetail' forum={forum} accessToken={accessToken} key={forum._id} />
-                    ))}
-                </ul>
+                <h2 style={{ textAlign: 'center', marginTop: '.5em' }}> Threads </h2>
+                <Container>
+                    <CreateForumComponent accessToken={accessToken} />
+                    <ul id="ForumThreadList">
+
+                        {forumsArray.map((forum) => (
+                            < ForumComponent to='/forumThreadDetail' forum={forum} accessToken={accessToken} key={forum._id} />
+                        ))}
+                    </ul>
+                </Container>
             </div>
         )
     } else {

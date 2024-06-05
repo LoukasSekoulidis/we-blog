@@ -7,6 +7,10 @@
   --accent-Color: #963100;
 }
 
+p{
+    margin: 0 0 0 .5em;
+}
+
 body{
   background-color: var(--white);
   color: var(--first-Color);
@@ -85,28 +89,6 @@ body{
     background-color: red;
 }
 
-#OpenUserManagementButton{
-    color: var(--first-Color);
-    background-color: transparent;
-    border: 1px solid white
-}
-
-#OpenUserManagementButton:hover{
-    border: 1px solid var(--first-Color)
-}
-
-#forumManagement{
-    color: var(--first-Color);
-    background-color: transparent;
-    border: 1px solid white
-
-}
-
-#forumManagement:hover{
-    border: 1px solid var(--first-Color)
-}
-
-
 #OpenPrivatePageButton{
     transition: ease-out(10s);
     color: var(--first-Color);
@@ -115,9 +97,70 @@ body{
 
 #OpenPrivatePageButton:hover{
     color: var(--accent-Color);
-
 }
 
 h1{
     margin: 2em;
+}
+
+button[data-id="forumManagementSelected"]{
+    color: var(--first-Color);
+    background-color: transparent;
+    border: 1px solid white;
+}
+
+button[data-id="forumManagementSelected"]:hover{
+    border: 1px solid var(--first-Color);
+    background-color: transparent;
+    color: var(--first-Color);
+}
+
+button[data-id="forumManagementNotSelected"]{
+    color: var(--second-Color);
+    background-color: transparent;
+    border: 1px solid white
+}
+
+button[data-id="forumManagementNotSelected"]:hover{
+    border: 1px solid var(--first-Color);
+    background-color: transparent;
+    color: var(--first-Color);
+}
+
+
+button[data-id="userManagementSelected"]{
+    color: var(--first-Color);
+    background-color: transparent;
+    border: 1px solid white;
+}
+
+button[data-id="userManagementSelected"]:hover{
+    border: 1px solid var(--first-Color);
+    background-color: transparent;
+    color: var(--first-Color);
+}
+
+button[data-id="userManagementNotSelected"]{
+    color: var(--second-Color);
+    background-color: transparent;
+    border: 1px solid white
+}
+
+button[data-id="userManagementNotSelected"]:hover{
+    border: 1px solid var(--first-Color);
+    background-color: transparent;
+    color: var(--first-Color);
+}
+
+.card{
+    color: var(--white);
+    background-color: var(--first-Color);
+    border: 2px solid var(--first-Color);
+}  
+
+.card:hover{
+    color: var(--white);
+    opacity: 90%;
+    border: 2px solid var(--second-Color);
+
 }

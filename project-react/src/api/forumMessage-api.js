@@ -22,6 +22,7 @@ export const createForumMessage = async (accessToken, forumThreadID, title, text
 }
 
 export const deleteForumMessage = async (accessToken, forumMessageID) => {
+    console.log(forumMessageID)
     const API_URL = config.get('API_URL') + 'forumMessages/' + forumMessageID
     const response = await fetch(API_URL, {
         method: 'DELETE',
